@@ -1,7 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) template.
 
 <p>
-  <img src="/screenshot.JPG" width="350" title="hover text">
+  <img src="/screenshot.JPG" width="900" title="hover text">
 </p>
 
 ## Available Scripts4

@@ -1,254 +1,65 @@
-import React,{useState} from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React, { StyleSheet, Component } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { fetchData, setCurrentWeatherData } from './actions/index';
 import Button from './Component/Button';
 import TodayWeather from './Component/TodayWeather';
-
-function App() {
-  const [city,setCity] = useState('');
-  const [weatherData,setweatherData] = useState('');
-  const getCityName=(e)=>{
-    setCity(e.target.value);
+import styles from './App.css';
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state={
+      city:'',
+      weatherData:'',
+      isInputValid: false
+    }
   }
-  const submitCity=()=>{
-    setweatherData({
-      "States": {
-        "IL": {
-          "currentdate": "04/05/2019",
-          "time": "02:59 PM",
-          "cities": [{
-              "name": "Chicago",
-              "forecast": [{
-                  "Date": "04/05/2019",
-                  "Time": "2.59pm",
-                  "temprature": 47,
-                  "feels": 40
-                },
-                {
-                  "Date": "04/06/2019",
-                  "Time": "2.59pm",
-                  "temprature": 57,
-                  "feels": 55
-                },
-                {
-                  "Date": "04/07/2019",
-                  "Time": "2.59pm",
-                  "temprature": 45,
-                  "feels": 44
-                },
-                {
-                  "Date": "04/08/2019",
-                  "Time": "2.59pm",
-                  "temprature": 61,
-                  "feels": 50
-                },
-                {
-                  "Date": "04/09/2019",
-                  "Time": "2.59pm",
-                  "temprature": 68,
-                  "feels": 65
-                }
-              ]
-            },
-            {
-              "name": "Naperville",
-              "forecast": [{
-                  "Date": "04/05/2019",
-                  "Time": "2.59pm",
-                  "temprature": 47,
-                  "feels": 40
-                },
-                {
-                  "Date": "04/06/2019",
-                  "Time": "2.59pm",
-                  "temprature": 59,
-                  "feels": 54
-                },
-                {
-                  "Date": "04/07/2019",
-                  "Time": "2.59pm",
-                  "temprature": 47,
-                  "feels": 46
-                },
-                {
-                  "Date": "04/08/2019",
-                  "Time": "2.59pm",
-                  "temprature": 63,
-                  "feels": 62
-                },
-                {
-                  "Date": "04/09/2019",
-                  "Time": "2.59pm",
-                  "temprature": 70,
-                  "feels": 68
-                }
-              ]
-            }
-          ]
-        },
-        "NY": {
-          "currentdate": "04/05/2019",
-          "time": "02:59 PM",
-          "cities": [{
-              "name": "New York",
-              "forecast": [{
-                  "Date": "04/05/2019",
-                  "Time": "2.59pm",
-                  "temprature": 57,
-                  "feels": 50
-                },
-                {
-                  "Date": "04/06/2019",
-                  "Time": "2.59pm",
-                  "temprature": 67,
-                  "feels": 65
-                },
-                {
-                  "Date": "04/07/2019",
-                  "Time": "2.59pm",
-                  "temprature": 55,
-                  "feels": 54
-                },
-                {
-                  "Date": "04/08/2019",
-                  "Time": "2.59pm",
-                  "temprature": 71,
-                  "feels": 60
-                },
-                {
-                  "Date": "04/09/2019",
-                  "Time": "2.59pm",
-                  "temprature": 78,
-                  "feels": 75
-                }
-              ]
-            },
-            {
-              "name": "Buffalo",
-              "forecast": [{
-                  "Date": "04/05/2019",
-                  "Time": "2.59pm",
-                  "temprature": 58,
-                  "feels": 40
-                },
-                {
-                  "Date": "04/06/2019",
-                  "Time": "2.59pm",
-                  "temprature": 68,
-                  "feels": 64
-                },
-                {
-                  "Date": "04/07/2019",
-                  "Time": "2.59pm",
-                  "temprature": 57,
-                  "feels": 46
-                },
-                {
-                  "Date": "04/08/2019",
-                  "Time": "2.59pm",
-                  "temprature": 63,
-                  "feels": 62
-                },
-                {
-                  "Date": "04/09/2019",
-                  "Time": "2.59pm",
-                  "temprature": 40,
-                  "feels": 48
-                }
-              ]
-            }
-          ]
-        },
-        "CA": {
-          "currentdate": "04/05/2019",
-          "time": "02:59 PM",
-          "cities": [{
-              "name": "Los Angeles",
-              "forecast": [{
-                  "Date": "04/05/2019",
-                  "Time": "2.59pm",
-                  "temprature": 67,
-                  "feels": 50
-                },
-                {
-                  "Date": "04/06/2019",
-                  "Time": "2.59pm",
-                  "temprature": 77,
-                  "feels": 65
-                },
-                {
-                  "Date": "04/07/2019",
-                  "Time": "2.59pm",
-                  "temprature": 65,
-                  "feels": 54
-                },
-                {
-                  "Date": "04/08/2019",
-                  "Time": "2.59pm",
-                  "temprature": 71,
-                  "feels": 60
-                },
-                {
-                  "Date": "04/09/2019",
-                  "Time": "2.59pm",
-                  "temprature": 78,
-                  "feels": 75
-                }
-              ]
-            },
-            {
-              "name": "San francisco",
-              "forecast": [{
-                  "Date": "04/05/2019",
-                  "Time": "2.59pm",
-                  "temprature": 68,
-                  "feels": 50
-                },
-                {
-                  "Date": "04/06/2019",
-                  "Time": "2.59pm",
-                  "temprature": 78,
-                  "feels": 64
-                },
-                {
-                  "Date": "04/07/2019",
-                  "Time": "2.59pm",
-                  "temprature": 67,
-                  "feels": 66
-                },
-                {
-                  "Date": "04/08/2019",
-                  "Time": "2.59pm",
-                  "temprature": 73,
-                  "feels": 72
-                },
-                {
-                  "Date": "04/09/2019",
-                  "Time": "2.59pm",
-                  "temprature": 70,
-                  "feels": 68
-                }
-              ]
-            }
-          ]
+  componentDidUpdate(prevProps,prevState) {
+    console.log(this.props.currentWeatherData);
+    if(!!this.props.currentWeatherData && prevProps.currentWeatherData !== this.props.currentWeatherData) {
+      this.setState({
+        isInputValid: true
+      });
+    }
+  }
+
+  getCityName=(e)=>{
+    this.setState({city:e.target.value},() =>{
+        if(!this.state.city){
+          this.setState({
+            isInputValid: false
+          });
         }
-      }
     });
   }
-  return (
-    <div className="App">
-      <div className="searchCity">
-        <input type="text" value={city} className="inputBox" onChange={(e)=>getCityName(e)}/>
-        <Button onClick={submitCity} text="submit City"/>
-      </div>
-      {city && 
-        <div className="todayWeather">
-          <TodayWeather city={city} {...weatherData}/>
+  submitCity=()=>{
+    this.props.fetchData(this.state.city);
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <div className="searchCity">
+          <input type="text" value={this.state.city} className="inputBox" placeHolder= "Enter City" onChange={(e)=>this.getCityName(e)}/>
+          <Button onClick={()=>this.submitCity(this)} text="submit City"/>
         </div>
-      }
-    </div>
-  );
+        {this.state.isInputValid &&
+          <div className="todayWeather">
+            <TodayWeather city={this.state.city} {...this.props.currentWeatherData}/>
+          </div>
+        }
+      </div>
+    )
+  }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  currentWeatherData : state.getWeatherData.currentWeatherData
+})
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    fetchData: fetchData
+  }, dispatch);
+}
+export default connect(mapStateToProps, mapDispatchToProps)(App);
